@@ -1,7 +1,17 @@
 import React, { useState } from 'react';
 import gql from 'graphql-tag';
 import { Mutation } from '@apollo/react-components';
-import { GET_NOTES1 } from './AllUsers';
+import { GET_NOTES } from './AllNotes';
+import Input from '@material-ui/core/Input';
+import Button from '@material-ui/core/Button';
+import { makeStyles } from '@material-ui/core/styles';
+import toastr from 'toastr';
+
+const useStyles = makeStyles( () => ({
+  noteTextField: {
+    marginRight: '30px'
+  }
+}));
 
 const EDIT_NOTE = gql`
   mutation editNote ($id: ID!, $note: String){
@@ -14,29 +24,37 @@ const EDIT_NOTE = gql`
 
 const EditNote = ({ noteObject}) => {
     const {id, note} = noteObject;
-    let input;
-    //const [noteText, setNoteText] = useState(note);
+    const [newNote, setNewNote] = useState('');
+    const classes = useStyles();
+
     return (
       <Mutation 
         mutation={EDIT_NOTE}
-        refetchQueries={[{ query: GET_NOTES1 }]}
+        refetchQueries={[{ query: GET_NOTES }]}
+        onCompleted = {()=>toastr.info('Note has been updated')}
+        onError={()=>toastr.error('Server error')}
     >
         {(editNote, { data }) => (
           <div>
                 <form
                   onSubmit={e => {
                     e.preventDefault();
-                    editNote({ variables: { id, note: input.value } });
+                    editNote({ variables: { id, note: newNote } });
 
                   }}
                 >
-                  <input
-                    ref={node => {
-                      input = node;
-                    }}
+                  <Input
+                    onChange={(event) => setNewNote(event.target.value)}
                     defaultValue={note}
+                    className={classes.noteTextField}
                   />
-                  <button type="submit">Update Todo</button>
+                  <Button               
+                    variant="contained" 
+                    color="primary" 
+                    type='submit'
+                  >
+                      Update Todo
+                  </Button>
                 </form>
           </div>
         )}

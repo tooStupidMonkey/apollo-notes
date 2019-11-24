@@ -1,8 +1,24 @@
 import React, { Component } from 'react';
 import { Input } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
+import { withStyles } from '@material-ui/core/styles';
+import PropTypes from 'prop-types';
 
-export default class LoginForm extends Component {
+const styles = {
+  root: {
+    display: 'flex',
+    flexDirection: 'column',
+    marginTop: '30px'
+  },
+  item: {
+    marginBottom: '15px'
+  },
+  loginButton: {
+    marginTop: '30px'
+  }
+};
+
+class LoginForm extends Component {
   state = { 
       email: '',
       password: ''
@@ -26,20 +42,38 @@ export default class LoginForm extends Component {
   };
 
   render() {
+    const { classes } = this.props;
     return (
       <div>
-        <form onSubmit={this.onSubmit}>
+        <h1>Let s start:</h1>  
+        <form 
+          onSubmit={this.onSubmit}
+          className={classes.root}
+        >
           <Input
             type="text"
             onChange={this.onChangeEmail}
+            className={classes.item}
           />
           <Input
             type="password"
             onChange={this.onChangePassword}
+            className={classes.item}
           />
-          <Button type="submit">Log in</Button>
+          <Button 
+            type="submit"
+            className={classes.loginButton}
+          >
+            Log in
+          </Button>
         </form>
       </div>
     );
   }
 }
+
+LoginForm.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
+
+export default withStyles(styles)(LoginForm);
