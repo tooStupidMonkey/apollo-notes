@@ -8,7 +8,12 @@ const typeDefs = gql`
         after: String
     ): NoteConnection!
     note(id: ID!): Note,
-    me: User
+    me: User,
+    users: [User]
+    }
+    
+    type UsersList {
+        users:[User]
     }
 
     type NoteConnection {
@@ -19,13 +24,16 @@ const typeDefs = gql`
     type Note {
         id: ID!
         note: String
-        isDone: Boolean!
+        createdAt: String
     }
 
     type User {
         id: ID!
         email: String!
         notes: [Note]!
+        firstName: String
+        lastName: String
+        rating: Int
     }
 
     type Mutation {
@@ -33,8 +41,11 @@ const typeDefs = gql`
         createNote(note: String): NoteUpdateResponse!
         # if false, cancellation failed -- check errors
         deleteNote(noteId: ID!): NoteUpdateResponse!
+        raitUser(id: Int!, rating: Int): RatingUpdateResponse!
         login(email: String, password: String): String # login token
+        signUp(email: String, password: String, firstName: String, lastName: String): String # login token
         editNote(id:ID!, note:String): NoteUpdateResponse!#edit note
+        editUser(id: ID!, firstName: String, lastName: String, rating: Int) : UserUpdateResponse
     }
 
     type NoteUpdateResponse {
@@ -42,11 +53,27 @@ const typeDefs = gql`
         message: String
         notes: [Note]
     }
-
+    type UserUpdateResponse {
+        success: Boolean!
+        message: String
+        user: User
+    }
+    type RatingUpdateResponse {
+        success: Boolean!
+        message: String
+        user: User
+    }
     enum PatchSize {
         SMALL
         LARGE
     }
+
+    type File {
+        filename: String!
+        mimetype: String!
+        encoding: String!
+    }
+
 `;
 
 module.exports = typeDefs;

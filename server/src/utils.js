@@ -23,7 +23,13 @@ module.exports.createStore = () => {
     password: SQL.STRING,
     createdAt: SQL.DATE,
     updatedAt: SQL.DATE,
-    email: SQL.STRING,
+    firstName: SQL.STRING,
+    lastName: SQL.STRING,
+    rating: SQL.INTEGER,
+    email: { 
+      type: SQL.STRING,
+      unique: true
+    },
     token: SQL.STRING,
   });
 

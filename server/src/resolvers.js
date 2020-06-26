@@ -1,25 +1,46 @@
 
+const {ApolloError} = require('apollo-server');
 module.exports = {
     Query: {
       notes: async (_, { pageSize = 20, after }, { dataSources }) => {
           const allNotes = await dataSources.noteAPI.getAllNotes();
           // we want these in reverse chronological order
           allNotes.reverse();
+          console.log('allNotes', allNotes)
           return {
             notes: allNotes,
           };
         },
       note: (_, { id }, { dataSources }) => dataSources.noteAPI.getNote({id}),
-      me: (_, __, { dataSources }) => dataSources.userAPI.findOrCreateUser()
+      me: (_, __, { dataSources }) => dataSources.userAPI.findOrCreateUser(),
+      users: (_, {}, {dataSources}) => dataSources.userAPI.fetchUsers()
     },
-    Note: {
-        isDone: async (note, _, { dataSources }) =>
-          dataSources.userAPI.isDone({ id: note.id }),
-    },
+    // Subscription: {
+    //   noteAdded: {
+    //       subscribe: () => pubsub.asyncIterator('noteAdded')
+    //     }
+    // },
     Mutation: {
         login: async (_, { email, password }, { dataSources }) => {
-          const user = await dataSources.userAPI.findOrCreateUser({ email, password });
+          console.log('testtt', email, password)
+          const user = await dataSources.userAPI.findUser({ email, password });
+          if (!user) throw new ApolloError('User not found', 404);
+          console.log('useruser', Buffer.from(email).toString('base64'))
+          return Buffer.from(email).toString('base64');
+        },
+        signUp: async (_, {email, password, firstName, lastName}, {dataSources}) => {
+          const user = await dataSources.userAPI.createUser({ email, password, firstName, lastName });
           if (user) return Buffer.from(email).toString('base64');
+        },
+        raitUser: async (_, {id, rating}, {dataSources}) => {
+          console.log('id, rating', id, rating)
+          const user = await dataSources.userAPI.raitUser({id, rating})
+          console.log('user', user)
+          return {
+            success: true,
+            message: 'Raitin has been updated',
+            user
+          }
         },
         createNote: async (_, { note }, { dataSources }) => {
           const results = await dataSources.userAPI.createNotes({ note });
@@ -37,6 +58,15 @@ module.exports = {
             message: 'note have been created successfully',
             notes: notes,
           };
+        },
+        editUser: async (_, {firstName, lastName, rating, id}, {dataSources}) => {
+          console.log('test', firstName)
+          const user = await dataSources.userAPI.editUser({id, firstName, lastName, rating})
+          return {
+            success: true,
+            message: 'User has been updated',
+            user
+          }
         },
         deleteNote: async (_, { noteId }, { dataSources }) => {
           const result = await dataSources.userAPI.deleteNote({ noteId });
