@@ -13,6 +13,7 @@ export const FETCH_USERS = gql`
       firstName
       lastName
       id
+      avatar
     }
   }
 `;
