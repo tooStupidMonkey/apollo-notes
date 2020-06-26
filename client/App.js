@@ -6,11 +6,13 @@ import {setContext} from "apollo-link-context";
 import {AUTH_TOKEN, URL} from '@/utils/constans'
 import {AplicationStack} from '@/utils/screens'
 import ErrorNotification from '@/components/ErrorNotification'
+import { createUploadLink } from 'apollo-upload-client';
+
 
 let token;
 
 const cache = new InMemoryCache();
-const httpLink = new HttpLink({ uri: URL });
+const httpLink = createUploadLink({ uri: URL });
 
 const authLink = setContext(async (_, { headers }) => {
   token = await AsyncStorage.getItem(AUTH_TOKEN);

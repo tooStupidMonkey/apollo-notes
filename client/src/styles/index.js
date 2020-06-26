@@ -10,6 +10,13 @@ export const CommonStyles = StyleSheet.create({
         width: Dimensions.get('window').width,
         padding: 10,
     },
+    containerRow: {
+        display: 'flex',
+        flexDirection: 'row',
+    },
+    justifyContentCenter: {
+        justifyContent:'center'
+    },
     input: {
         width: Dimensions.get('window').width - 20,
         height: 40,
@@ -23,6 +30,12 @@ export const CommonStyles = StyleSheet.create({
     marginTop10: {
         marginTop: 10
     },
+    marginTop: (value) => ({
+        marginTop: value
+    }),
+    padding: (value) => ({
+        padding: value
+    }),
     button: {
         width: 120,
         height: 40,

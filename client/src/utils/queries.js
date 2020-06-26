@@ -47,8 +47,8 @@ export const RAIT_USER = gql`
   }
 `;
 export const EDIT_USER = gql`
-  mutation editUser($id: ID!, $rating: Int, $firstName: String, $lastName: String) {
-    editUser(id: $id, rating: $rating, firstName: $firstName, lastName: $lastName) {
+  mutation editUser($id: ID!, $rating: Int, $firstName: String, $lastName: String, $file: Upload) {
+    editUser(id: $id, rating: $rating, firstName: $firstName, lastName: $lastName, file: $file) {
       success
       message
       user {

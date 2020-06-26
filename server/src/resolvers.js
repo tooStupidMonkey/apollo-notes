@@ -1,5 +1,7 @@
 
 const {ApolloError} = require('apollo-server');
+const fs = require('fs');
+
 module.exports = {
     Query: {
       notes: async (_, { pageSize = 20, after }, { dataSources }) => {
@@ -59,8 +61,18 @@ module.exports = {
             notes: notes,
           };
         },
-        editUser: async (_, {firstName, lastName, rating, id}, {dataSources}) => {
-          console.log('test', firstName)
+        editUser: async (_, {firstName, lastName, rating, id, file}, {dataSources}) => {
+          const { filename, mimetype, encoding, createReadStream } = await file;
+          console.log('stream', createReadStream())
+          try {
+
+            fs.writeFile('assets/images/'+filename, createReadStream(), (err) => {
+              console.log(err, err)
+            })
+          } catch (e) {
+            console.log('e', e)
+          }
+          //console.log('stream, filename, mimetype, encoding', stream, filename, mimetype, encoding)
           const user = await dataSources.userAPI.editUser({id, firstName, lastName, rating})
           return {
             success: true,
