@@ -1,5 +1,7 @@
 const { DataSource } = require('apollo-datasource');
 const isEmail = require('isemail');
+//import { PubSub } from 'graphql-subscriptions';
+//export const pubsub = new PubSub();
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 
@@ -24,31 +26,80 @@ class UserAPI extends DataSource {
    * have to be. If the user is already on the context, it will use that user
    * instead
    */
-  async findOrCreateUser({ email: emailArg, password } = {}) {
+
+   async fetchUsers () {
+     const store = this.store
+     const users = await store.users.findAll()
+     return users ? users : []
+   }
+
+  async findUser({ email: emailArg, password } = {}) {
     const store = this.store;
-    const email =
-      this.context && this.context.user ? this.context.user.email : emailArg;
-    if (!email || !isEmail.validate(email) || !password) return null;
+
+    if (!emailArg || !isEmail.validate(emailArg) || !password) return null;
+
+    const users = await store.users.findOne({ where: { email: emailArg} });
+    if (!users) {
+      return null
+    }
+    const result = await bcrypt.compare(password, users.password);
+    if (!result) {
+      throw new Error('User not found')
+    }
+    return result && users ? users : null;
+  }
+
+  async createUser({ email: emailArg, password, firstName, lastName } = {}) {
+    const store = this.store;
+    console.log('firstName, lastName', firstName, lastName)
+    if (!emailArg || !isEmail.validate(emailArg) || !password) return null;
     const hash =  await bcrypt.hash(password, saltRounds);
     if (!hash) {
       return null;
     }
-    const users = await store.users.findOrCreate({ where: { email, password: hash } });
-    return users && users[0] ? users[0] : null;
+    const user = await store.users.create( { email: emailArg, password: hash, firstName, lastName } );
+
+    return user  ? user : null;
   }
 
   async createNotes({ note }) {
-    //console.log('this.context', this.context, note)
-    const userId = this.context.user.id;
-    if (!userId) return;
+    //const userId = this.context.user.id;
+    //if (!userId) return;
     let results = [];
     // if successful
     const res = await this.createNote({ note });
+    const payload = {
+      noteAdded: {
+          id: res.id,
+          note: res.note,
+      }
+  };
+  
     if (res) results.push(res);
     return results;
   }
-  isDone ({id}) {
-    return true;
+  async raitUser({id, rating}) {
+    const res = await this.store.users.update({
+      rating
+    },{
+      where: { id },
+    });
+    const user =  await this.store.users.findOne(
+      { where: { id} }
+    )
+    return user ? user : null
+  }
+
+  async editUser({id, firstName, lastName, rating}) {
+    const res = await this.store.users.update({
+      firstName, lastName, rating
+    },{
+      where: { id },
+    });
+    const user =  await this.store.users.findOne(
+      { where: { id} }
+    )
+    return user ? user : null
   }
   async createNote({ note }) {
     const userId = this.context.user.id;
