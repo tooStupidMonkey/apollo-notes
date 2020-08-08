@@ -34,6 +34,7 @@ const typeDefs = gql`
         firstName: String
         lastName: String
         rating: Int
+        avatar: String
     }
 
     type Mutation {

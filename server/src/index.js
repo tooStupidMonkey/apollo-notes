@@ -1,12 +1,15 @@
-const { ApolloServer } = require('apollo-server');
+const { ApolloServer } = require('apollo-server-express');
+var express = require('express')
+
 const typeDefs = require('./schema');
 const { createStore } = require('./utils');
-
+const connect = require('connect');
 const NoteAPI = require('./datasources/note');
 const UserAPI = require('./datasources/user');
 const resolvers = require('./resolvers');
 const store = createStore();
 const isEmail = require('isemail');
+const app = connect();
 
 const server = new ApolloServer({
   context: async ({ req }) => {
@@ -27,24 +30,24 @@ const server = new ApolloServer({
   }),
   typeDefs,
   resolvers,
-  // subscriptions: {
-  //   onConnect: (connectionParams, webSocket) => {
-  //     if (connectionParams.authToken) {
-  //       return validateToken(connectionParams.authToken)
-  //         .then(findUser(connectionParams.authToken))
-  //         .then(user => {
-  //           return {
-  //             currentUser: user,
-  //           };
-  //         });
-  //     }
-
-  //     throw new Error('Missing auth token!');
-  //   },
-  // },
 });
 
-server.listen().then(({ url, subscriptionsUrl }) => {
-  console.log(`🚀 Server ready at ${url}`);
-  console.log(`🚀 Subscriptions ready at ${subscriptionsUrl}`);
-});
+const options = {
+  dotfiles: 'ignore',
+  etag: false,
+  extensions: ['htm', 'html'],
+  index: false,
+  maxAge: '1d',
+  redirect: false,
+  // setHeaders: function (res, path, stat) {
+  //   res.set('x-timestamp', Date.now())
+  // }
+}
+
+app.use(express.static('src/assets/images', options))
+
+server.applyMiddleware({ app });
+
+app.listen({ port: 4000 }, () =>
+  console.log(`🚀 Server ready at http://localhost:4000${server.graphqlPath}`)
+)

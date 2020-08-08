@@ -61,19 +61,22 @@ module.exports = {
             notes: notes,
           };
         },
-        editUser: async (_, {firstName, lastName, rating, id, file}, {dataSources}) => {
-          const { filename, mimetype, encoding, createReadStream } = await file;
-          console.log('stream', createReadStream())
-          try {
-
-            fs.writeFile('assets/images/'+filename, createReadStream(), (err) => {
-              console.log(err, err)
-            })
-          } catch (e) {
-            console.log('e', e)
-          }
+        editUser: async (_, {firstName, lastName, rating, id/*, file*/}, {dataSources}) => {
+          // try {
+          //   console.log('test')
+          //   const { filename, mimetype, encoding, createReadStream } = await file;
+          //   console.log('stream', createReadStream())
+          //   fs.writeFile('assets/images/'+filename, createReadStream(), (err) => {
+          //     console.log(err, err)
+          //   })
+          // } catch (e) {
+          //   console.log('e', e)
+          // }
           //console.log('stream, filename, mimetype, encoding', stream, filename, mimetype, encoding)
-          const user = await dataSources.userAPI.editUser({id, firstName, lastName, rating})
+          console.log(
+            'tets'
+          )
+          const user = await dataSources.userAPI.editUser({id, firstName, lastName, rating, avatar: 'test.jpg'})
           return {
             success: true,
             message: 'User has been updated',

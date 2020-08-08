@@ -1,16 +1,20 @@
 import React, { useState, useEffect } from 'react'
-import {SafeAreaView, View, Text, TextInput, Button, StyleSheet, TouchableOpacity, Dimensions} from 'react-native'
+import {SafeAreaView, View, Text, TextInput, Button, StyleSheet, TouchableOpacity, Dimensions,  FlatList} from 'react-native'
 import Rating from '@/components/Rating'
 import { Image } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import Constants from 'expo-constants';
 import { Camera } from 'expo-camera';
-import {EDIT_USER} from '@/utils/queries'
+import {EDIT_USER, GET_NOTES} from '@/utils/queries'
+import {URL_IMAGES} from '@/utils/constans'
 import { useMutation } from '@apollo/react-hooks';
 import {requestParams} from '@/utils/helpers'
 import { useNavigation } from '@react-navigation/native';
 import {CommonStyles} from '@/styles/index'
 const { ReactNativeFile } = require('apollo-upload-client');
+import { useQuery } from '@apollo/react-hooks';
+import NoteItem from '@/components/NoteItem'
+import ListHeader from '@/components/ListHeader'
 
 const styles = StyleSheet.create({
     imageContainer: {
@@ -21,12 +25,18 @@ const styles = StyleSheet.create({
     }
 })
 
+const getNotes = () => {
+    const { loading, error, data } = useQuery(GET_NOTES);
+    return data ? data.notes.notes : []
+}
+
 export default ({route}) => {
     const [firstName, setFirstName] = useState(route.params.firstName);
     const [lastName, setLastName] = useState(route.params.lastName);
     const [rating, setRating] = useState(route.params.rating);
+    const [notes, setNotes] = useState([]);
     const [openCamera, setOpenCamera] = useState(false);
-    const [image, setImage] = useState(null);
+    const [image, setImage] = useState(route.params.avatar ? {uri: URL_IMAGES + route.params.avatar} : null );
     const [hasPermission, setHasPermission] = useState(null);
     const [type, setType] = useState(Camera.Constants.Type.back);
     const navigation = useNavigation();
@@ -71,12 +81,15 @@ export default ({route}) => {
             const { status } = await Camera.requestPermissionsAsync();
             setHasPermission(status === 'granted');
           })();
+
+            // const { loading, error, data } = useQuery(GET_NOTES);
+            // console.log('loading, error, data', loading, error, data)
       }, []);
 
       if (openCamera && hasPermission === false) {
         return <Text>No access to camera</Text>;
       }
-      console.log('image', image)
+
     return (
         <SafeAreaView>
             <View 
@@ -89,7 +102,7 @@ export default ({route}) => {
             >
                 <View style={styles.imageContainer}>
                     <Button title="Update image" onPress={pickImage} />
-                    {image && <Image source={{ uri: image.uri }} style={{ width: 150, height: 150, borderRadius: 100, marginTop: 20 }} />}
+                    {image && <Image source={{ uri: image.uri }} style={{ width: 150, height: 150, borderRadius: 100, marginTop: 20, borderWidth: 1, borderColor: '#eee' }} />}
                 </View>
                 { openCamera &&  <View>
                     <Camera style={
@@ -142,31 +155,31 @@ export default ({route}) => {
                 >
                     <Button
                         title="Cancel"
-                        onPress={e => {
-                        navigation.navigate('Users')
-                    }}
+                        onPress={e => navigation.navigate('Users')}
                     />
                     <Button               
                         title="Save"
                         onPress={e => {
-                            console.log('dss', {
-                                id: route.params.id, 
-                                firstName,
-                                lastName,
-                                rating,
-                                file: image,
-                            })
                             editUser({
                                 variables: {
                                     id: route.params.id, 
                                     firstName,
                                     lastName,
                                     rating,
-                                    file: image,
+                                    //file: image,
                                 }
                             })
                         }}
                     />
+                </View>
+                <View>
+                <FlatList
+                    data={getNotes()}
+                    renderItem={({ item }) => <NoteItem item={item} />}
+                    keyExtractor={item => String(item.id)}
+                    ListHeaderComponent={<ListHeader totalResults={notes.length} />}
+                    extraData={notes}
+                />
                 </View>
             </View>
         </SafeAreaView>

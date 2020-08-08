@@ -17,11 +17,12 @@ import {View} from 'react-native'
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
-export function NoteStack() {
+export function UsersStack() {
     return (
         <Stack.Navigator headerMode="none">
             <Stack.Screen name="Users" component={Users} />
             <Stack.Screen name="Edit User" component={EditUser} />
+            <Stack.Screen name="Edit Note" component={EditNote} />
         </Stack.Navigator>
     ) 
 }
@@ -30,7 +31,7 @@ export function AuthorizedStack() {
     return (      
         <NavigationContainer>
             <Tab.Navigator>
-                <Tab.Screen name="Notes list" component={NoteStack} />
+                <Tab.Screen name="Users list" component={UsersStack} />
                 <Tab.Screen name="Add Note" component={AddNote} />
             </Tab.Navigator>
         </NavigationContainer>

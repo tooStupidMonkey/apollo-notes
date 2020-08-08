@@ -8,7 +8,7 @@ import { LOGIN_USER, NOTIFICATIONS } from '@/utils/queries'
 import { useQuery } from '@apollo/react-hooks';
 
 export default () => {
-    const [email, onChangeEmail] = React.useState('test@com.com');
+    const [email, onChangeEmail] = React.useState('test2@com.com');
     const [password, onChangePassword] = React.useState('test');
     const client = useApolloClient();
     const { data } = useQuery(NOTIFICATIONS);
