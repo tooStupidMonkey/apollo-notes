@@ -91,6 +91,7 @@ class UserAPI extends DataSource {
   }
 
   async editUser({id, firstName, lastName, rating, avatar}) {
+    console.log('avatar', avatar)
     const res = await this.store.users.update({
       firstName, lastName, rating, avatar
     },{

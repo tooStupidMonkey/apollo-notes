@@ -1,11 +1,13 @@
 import React, {useEffect} from 'react'
-import {SafeAreaView, TextInput, Text, Button, View} from 'react-native'
+import {SafeAreaView, TextInput, Text, View} from 'react-native';
+import Button from '@/components/Button';
 import { useMutation } from '@apollo/react-hooks';
 import { AsyncStorage } from 'react-native';
 import { useApolloClient } from '@apollo/react-hooks';
-import {CommonStyles} from '@/styles/index'
+import {CommonStyles, CustomButton} from '@/styles/index'
 import { LOGIN_USER, NOTIFICATIONS } from '@/utils/queries'
 import { useQuery } from '@apollo/react-hooks';
+
 
 export default () => {
     const [email, onChangeEmail] = React.useState('test2@com.com');

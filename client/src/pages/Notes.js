@@ -1,11 +1,11 @@
-import React from 'react'
-import {View, Text, FlatList, SafeAreaView} from 'react-native'
-import { Query } from 'react-apollo';
-import {CommonStyles} from '@/styles/index'
-import LogOut from '@/components/LogOut'
-import NoteItem from '@/components/NoteItem'
-import ListHeader from '@/components/ListHeader'
-import {GET_NOTES} from '@/utils/queries'
+import React from "react";
+import {View, Text, FlatList, SafeAreaView} from "react-native";
+import { Query } from "react-apollo";
+import {CommonStyles} from "@/styles/index";
+import LogOut from "@/components/LogOut";
+import NoteItem from "@/components/NoteItem";
+import ListHeader from "@/components/ListHeader";
+import {GET_NOTES} from "@/utils/queries";
 
 export default () => {
     return (
@@ -20,10 +20,10 @@ export default () => {
                 {({ loading, error, data }) => {
                     if (loading) return <Text>Loading...</Text>;
                     if (error) {
-                        return <Text>Error :(</Text>
+                        return <Text>Error :(</Text>;
                     } 
                     if (!data.notes.notes.length) {
-                        return <Text>No data</Text>
+                        return <Text>No data</Text>;
                     }
                     return (
                         <FlatList
@@ -37,5 +37,5 @@ export default () => {
                 }}
             </Query>
         </SafeAreaView>
-    )
-}
+    );
+};

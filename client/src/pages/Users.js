@@ -1,10 +1,10 @@
-import React from 'react'
-import { useQuery } from '@apollo/react-hooks';
-import {View, Text, StyleSheet, Animated, Easing, ActivityIndicator, FlatList, Dimensions} from 'react-native'
-import {FETCH_USERS} from '@/utils/queries'
-import UserCard from '@/components/UserCard'
-import {SafeAreaView} from 'react-native'
-import Icon from 'react-native-vector-icons/FontAwesome';
+import React from "react";
+import { useQuery } from "@apollo/react-hooks";
+import {View, Text, StyleSheet, Animated, Easing, ActivityIndicator, FlatList, Dimensions} from "react-native";
+import {FETCH_USERS} from "@/utils/queries";
+import UserCard from "@/components/UserCard";
+import {SafeAreaView} from "react-native";
+import Icon from "react-native-vector-icons/FontAwesome";
 
 
 const styles = StyleSheet.create({
@@ -13,8 +13,8 @@ const styles = StyleSheet.create({
       justifyContent: "center"
     },
     listContainer: {
-        display: 'flex',
-        alignItems: 'center'
+        display: "flex",
+        alignItems: "center"
     },
     horizontal: {
       flexDirection: "row",
@@ -22,16 +22,16 @@ const styles = StyleSheet.create({
       padding: 10
     },
     listHeader: {
-        textAlign: 'center',
+        textAlign: "center",
         marginTop: 10,
-        width: Dimensions.get('window').width,
+        width: Dimensions.get("window").width,
         marginBottom: 20
     }
   });
 
 export default () => {
-   const {data} = useQuery(FETCH_USERS)
-   console.log('data', data)
+   const {data} = useQuery(FETCH_USERS);
+   console.log("data", data);
    if (data) {
        return (
            <SafeAreaView>
@@ -45,11 +45,11 @@ export default () => {
                     extraData={data.users}
                 />
            </SafeAreaView>
-       )
+       );
    }
    return (
     <View style={[styles.container, styles.horizontal]}>
       <ActivityIndicator size="large" color="#0000ff" />
     </View>
   );
-}
+};

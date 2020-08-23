@@ -1,19 +1,19 @@
-import React, { useState } from 'react';
-import { Mutation } from 'react-apollo';
-import {Text, TextInput, Button, SafeAreaView} from 'react-native'
-import { useNavigation } from '@react-navigation/native';
-import {CommonStyles} from '@/styles/index'
-import {CREATE_NOTES, GET_NOTES} from '@/utils/queries'
+import React, { useState } from "react";
+import { Mutation } from "react-apollo";
+import {Text, TextInput, Button, SafeAreaView} from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import {CommonStyles} from "@/styles/index";
+import {CREATE_NOTES, GET_NOTES} from "@/utils/queries";
 
 export default () => {
-    const [note, setNote] = useState('');
+    const [note, setNote] = useState("");
     const navigation = useNavigation();
     return (
         <Mutation
           mutation={CREATE_NOTES}
           refetchQueries={[{ query: GET_NOTES }]}
           onCompleted = {()=>{
-            navigation.navigate('Notes list')
+            navigation.navigate("Users");
           }}
         >
           {(createNote, { loading, error, data }) => {
@@ -40,4 +40,4 @@ export default () => {
           }}
         </Mutation>
     );
-}
+};

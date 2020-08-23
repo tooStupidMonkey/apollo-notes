@@ -1,4 +1,4 @@
-import gql from 'graphql-tag';
+import gql from "graphql-tag";
 
 export const IS_LOGGED_IN = gql`
   query IsUserLoggedIn {
@@ -56,6 +56,7 @@ export const EDIT_USER = gql`
         rating
         firstName
         lastName
+        avatar
       }
     }
   }

@@ -1,26 +1,27 @@
-import {StyleSheet} from 'react-native'; 
-import { Dimensions } from 'react-native';
+import {StyleSheet, Button} from "react-native"; 
+import { Dimensions } from "react-native";
+import styled from "styled-components";
 
 export const CommonStyles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: 'flex-start',
-        alignItems: 'center',
-        height: Dimensions.get('window').height,
-        width: Dimensions.get('window').width,
+        justifyContent: "center",
+        alignItems: "center",
+        height: Dimensions.get("window").height,
+        width: Dimensions.get("window").width,
         padding: 10,
     },
     containerRow: {
-        display: 'flex',
-        flexDirection: 'row',
+        display: "flex",
+        flexDirection: "row",
     },
     justifyContentCenter: {
-        justifyContent:'center'
+        justifyContent:"center"
     },
     input: {
-        width: Dimensions.get('window').width - 20,
+        width: Dimensions.get("window").width - 20,
         height: 40,
-        borderColor: '#eeddff',
+        borderColor: "#eeddff",
         borderRadius: 2,
         borderWidth: 1,
         marginTop: 10,
@@ -39,53 +40,61 @@ export const CommonStyles = StyleSheet.create({
     button: {
         width: 120,
         height: 40,
-        backgroundColor: 'red'
+        backgroundColor: "red"
     },
     textAlignCenter: {
-        textAlign: 'center'
+        textAlign: "center"
+    },
+    headerStyled: {
+        alignItems: "center",
+        justifyContent: "center",
+        backgroundColor: "red"
     } 
-})
+});
 
 export const Note = StyleSheet.create({
     item: {
-        width: Dimensions.get('window').width - 40
+        width: Dimensions.get("window").width - 40
     },
     buttonsWrap: {
-        display: 'flex',
-        flexDirection: 'row',
-        justifyContent: 'center'
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "center"
     },
     header: {
-        display: 'flex',
+        display: "flex",
         flex: 1,
-        alignContent: 'center',
+        alignContent: "center",
         marginBottom: 15,
+        borderTopWidth: 2,
+        borderTopColor: "#eee",
+        borderStyle: "solid"
     },
     headerText: {
        fontSize: 20,
-       fontWeight: 'bold'     
+       fontWeight: "bold"     
     }
-})
+});
 
 export const ErrorStyles = StyleSheet.create({
     error: {
         fontSize: 15,
-        color: 'white',
-        fontWeight: 'bold', 
+        color: "white",
+        fontWeight: "bold", 
         fontSize: 19
     },
     errorWrap: {
-        position: 'absolute',
+        position: "absolute",
         top: 60,
-        width: Dimensions.get('window').width,
+        width: Dimensions.get("window").width,
         zIndex: 1,
     },
     errorItem: {
-        width: Dimensions.get('window').width - 60,
+        width: Dimensions.get("window").width - 60,
         minHeight: 40,
-        left: (Dimensions.get('window').width - 60) / 12,
+        left: (Dimensions.get("window").width - 60) / 12,
         marginTop: 15,
-        backgroundColor: '#FF0000',
+        backgroundColor: "#FF0000",
         borderRadius: 4,
         padding: 15,
         shadowColor: "rgba(255,0,0,1)",
@@ -98,4 +107,9 @@ export const ErrorStyles = StyleSheet.create({
         elevation: 7,
         zIndex: 2
     }
-})
+});
+
+
+export const CustomButton = styled.Button`
+    color: black;
+`;

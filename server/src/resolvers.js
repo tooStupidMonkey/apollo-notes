@@ -1,6 +1,8 @@
 
 const {ApolloError} = require('apollo-server');
 const fs = require('fs');
+const path = require("path");
+const { createWriteStream } = require("fs");
 
 module.exports = {
     Query: {
@@ -31,7 +33,9 @@ module.exports = {
           return Buffer.from(email).toString('base64');
         },
         signUp: async (_, {email, password, firstName, lastName}, {dataSources}) => {
+          console.log('tes')
           const user = await dataSources.userAPI.createUser({ email, password, firstName, lastName });
+          console.log('user', user)
           if (user) return Buffer.from(email).toString('base64');
         },
         raitUser: async (_, {id, rating}, {dataSources}) => {
@@ -61,22 +65,22 @@ module.exports = {
             notes: notes,
           };
         },
-        editUser: async (_, {firstName, lastName, rating, id/*, file*/}, {dataSources}) => {
-          // try {
-          //   console.log('test')
-          //   const { filename, mimetype, encoding, createReadStream } = await file;
-          //   console.log('stream', createReadStream())
-          //   fs.writeFile('assets/images/'+filename, createReadStream(), (err) => {
-          //     console.log(err, err)
-          //   })
-          // } catch (e) {
-          //   console.log('e', e)
-          // }
-          //console.log('stream, filename, mimetype, encoding', stream, filename, mimetype, encoding)
-          console.log(
-            'tets'
-          )
-          const user = await dataSources.userAPI.editUser({id, firstName, lastName, rating, avatar: 'test.jpg'})
+        editUser: async (_, {firstName, lastName, rating, id, file}, {dataSources}) => {
+          const sult = Math.random().toString(36).substring(7)
+          const { filename, mimetype, encoding, createReadStream } = await file;
+          const avatarName = `${sult}-${id}-${filename}`;
+          await new Promise((res) =>
+          createReadStream()
+            .pipe(
+              createWriteStream(
+                path.join(__dirname, "assets/images/", avatarName)
+              )
+            )
+            .on("close", res)
+          );
+
+          const user = await dataSources.userAPI.editUser({id, firstName, lastName, rating, avatar: avatarName})
+          
           return {
             success: true,
             message: 'User has been updated',

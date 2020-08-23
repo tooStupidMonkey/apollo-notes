@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
-import { Mutation } from '@apollo/react-components';
-import { GET_NOTES } from '@/utils/queries';
-import { TextInput, Button, SafeAreaView, Text, View} from 'react-native'
-import { useNavigation } from '@react-navigation/native';
-import {CommonStyles, Note} from '@/styles/index'
-import {EDIT_NOTE, RAIT_USER} from '@/utils/queries'
-import Rating from '@/components/Rating'
-import { useMutation } from '@apollo/react-hooks';
+import React, { useState } from "react";
+import { Mutation } from "@apollo/react-components";
+import { GET_NOTES } from "@/utils/queries";
+import { TextInput, Button, SafeAreaView, Text, View} from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import {CommonStyles, Note} from "@/styles/index";
+import {EDIT_NOTE, RAIT_USER} from "@/utils/queries";
+import Rating from "@/components/Rating";
+import { useMutation } from "@apollo/react-hooks";
 
 export default ({route}) => {
     const {id, note} = route.params;
@@ -14,10 +14,10 @@ export default ({route}) => {
     const navigation = useNavigation();
     const [raitUser] = useMutation(RAIT_USER, {
       onError: (error) => {
-        console.log('On error: ', error)
+        console.log("On error: ", error);
       },
       onCompleted: (data) => {
-        console.log('data: ', data)
+        console.log("data: ", data);
       }
     });
 
@@ -25,15 +25,15 @@ export default ({route}) => {
       raitUser({
         id: 1,
         rating: i
-      })
-    }
+      });
+    };
 
     return (
       <Mutation 
         mutation={EDIT_NOTE}
         refetchQueries={[{ query: GET_NOTES }]}
-        onCompleted = {() => navigation.navigate('Notes')}
-        onError={(error)=>console.log('Server error', error)}
+        onCompleted = {() => navigation.navigate("Users")}
+        onError={(error)=>console.log("Server error", error)}
     >
         {(editNote, { data }) => (
           <SafeAreaView style={CommonStyles.container}>
@@ -41,7 +41,7 @@ export default ({route}) => {
                 <TextInput
                     style={CommonStyles.input}
                     onChangeText={(value) => { 
-                        setNewNote(value)
+                        setNewNote(value);
                     }}
                     value={newNote}
                     defaultValue={note}
@@ -52,7 +52,7 @@ export default ({route}) => {
                     title="Cancel"
                     onPress={e => {
                       e.preventDefault();
-                      navigation.navigate('Notes')
+                      navigation.navigate("Notes");
 
                   }}
                   />
