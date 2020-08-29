@@ -34,6 +34,7 @@ const typeDefs = gql`
         firstName: String
         lastName: String
         rating: Int
+        avatar: String
     }
 
     type Mutation {
@@ -45,7 +46,7 @@ const typeDefs = gql`
         login(email: String, password: String): String # login token
         signUp(email: String, password: String, firstName: String, lastName: String): String # login token
         editNote(id:ID!, note:String): NoteUpdateResponse!#edit note
-        editUser(id: ID!, firstName: String, lastName: String, rating: Int) : UserUpdateResponse
+        editUser(id: ID!, firstName: String, lastName: String, rating: Int, file: Upload) : UserUpdateResponse
     }
 
     type NoteUpdateResponse {

@@ -26,6 +26,7 @@ module.exports.createStore = () => {
     firstName: SQL.STRING,
     lastName: SQL.STRING,
     rating: SQL.INTEGER,
+    avatar: SQL.STRING,
     email: { 
       type: SQL.STRING,
       unique: true

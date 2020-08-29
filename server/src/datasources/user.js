@@ -51,7 +51,7 @@ class UserAPI extends DataSource {
 
   async createUser({ email: emailArg, password, firstName, lastName } = {}) {
     const store = this.store;
-    console.log('firstName, lastName', firstName, lastName)
+
     if (!emailArg || !isEmail.validate(emailArg) || !password) return null;
     const hash =  await bcrypt.hash(password, saltRounds);
     if (!hash) {
@@ -90,9 +90,10 @@ class UserAPI extends DataSource {
     return user ? user : null
   }
 
-  async editUser({id, firstName, lastName, rating}) {
+  async editUser({id, firstName, lastName, rating, avatar}) {
+    console.log('avatar', avatar)
     const res = await this.store.users.update({
-      firstName, lastName, rating
+      firstName, lastName, rating, avatar
     },{
       where: { id },
     });
