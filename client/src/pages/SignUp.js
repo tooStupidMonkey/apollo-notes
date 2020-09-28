@@ -20,7 +20,6 @@ export default () => {
                   data.signUp
                 );
                 client.writeData({ data: { isLoggedIn: true} });
-                //onChangeuserNotFound(false)
             } catch (error) {
                 console.log('Login Error', error)
             }

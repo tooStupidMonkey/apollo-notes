@@ -9,64 +9,64 @@ import Rating from "@/components/Rating";
 import { useMutation } from "@apollo/react-hooks";
 
 export default ({route}) => {
-    const {id, note} = route.params;
-    const [newNote, setNewNote] = useState();
-    const navigation = useNavigation();
-    const [raitUser] = useMutation(RAIT_USER, {
-      onError: (error) => {
-        console.log("On error: ", error);
-      },
-      onCompleted: (data) => {
-        console.log("data: ", data);
-      }
-    });
+ const {id, note} = route.params;
+ const [newNote, setNewNote] = useState();
+ const navigation = useNavigation();
+ const [raitUser] = useMutation(RAIT_USER, {
+  onError: (error) => {
+   console.log("On error: ", error);
+  },
+  onCompleted: (data) => {
+   console.log("data: ", data);
+  }
+ });
 
-    const defaultAction = (i) => {
-      raitUser({
-        id: 1,
-        rating: i
-      });
-    };
+ const defaultAction = (i) => {
+  raitUser({
+   id: 1,
+   rating: i
+  });
+ };
 
-    return (
-      <Mutation 
-        mutation={EDIT_NOTE}
-        refetchQueries={[{ query: GET_NOTES }]}
-        onCompleted = {() => navigation.navigate("Users")}
-        onError={(error)=>console.log("Server error", error)}
-    >
-        {(editNote, { data }) => (
-          <SafeAreaView style={CommonStyles.container}>
-              <Text>Edit note:</Text>
-                <TextInput
-                    style={CommonStyles.input}
-                    onChangeText={(value) => { 
-                        setNewNote(value);
-                    }}
-                    value={newNote}
-                    defaultValue={note}
-                />
-                <Rating action={defaultAction} />
-                <View style={Note.buttonsWrap}>
-                  <Button
-                    title="Cancel"
-                    onPress={e => {
-                      e.preventDefault();
-                      navigation.navigate("Notes");
+ return (
+  <Mutation 
+   mutation={EDIT_NOTE}
+   refetchQueries={[{ query: GET_NOTES }]}
+   onCompleted = {() => navigation.navigate("Users")}
+   onError={(error)=>console.log("Server error", error)}
+  >
+   {(editNote, { data }) => (
+    <SafeAreaView style={CommonStyles.container}>
+     <Text>Edit note:</Text>
+     <TextInput
+      style={CommonStyles.input}
+      onChangeText={(value) => { 
+       setNewNote(value);
+      }}
+      value={newNote}
+      defaultValue={note}
+     />
+     <Rating action={defaultAction} />
+     <View style={Note.buttonsWrap}>
+      <Button
+       title="Cancel"
+       onPress={e => {
+        e.preventDefault();
+        navigation.navigate("Notes");
 
-                  }}
-                  />
-                  <Button               
-                      title="Save"
-                      onPress={e => {
-                          e.preventDefault();
-                          editNote({ variables: { id, note: newNote } });
+       }}
+      />
+      <Button               
+       title="Save"
+       onPress={e => {
+        e.preventDefault();
+        editNote({ variables: { id, note: newNote } });
 
-                      }}
-                  />
-                </View>
-          </SafeAreaView>
-        )}
-      </Mutation>
-    );
-  };
+       }}
+      />
+     </View>
+    </SafeAreaView>
+   )}
+  </Mutation>
+ );
+};

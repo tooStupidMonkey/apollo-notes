@@ -125,7 +125,8 @@ export default ({ route }) => {
         style={
           {
             display: 'flex',
-            alignItems: 'center'
+            alignItems: 'center',
+            paddingBottom: 30
           }
         }
       >

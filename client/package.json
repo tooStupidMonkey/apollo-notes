@@ -6,13 +6,14 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "eject": "expo eject",
-    "lint": "eslint --ext .jsx,.js ./src",
-    "lint-fix": "eslint --ext .jsx,.js ./src --fix"
+    "lint": "eslint --ext .js ./src",
+    "lint-fix": "eslint --ext .js ./src --fix"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.29",
     "@fortawesome/free-solid-svg-icons": "^5.13.1",
     "@fortawesome/react-native-fontawesome": "^0.2.5",
+    "@ionic/cli": "^6.11.1",
     "@material-ui/core": "^4.10.2",
     "@material-ui/icons": "^4.9.1",
     "@react-native-community/masked-view": "0.1.10",

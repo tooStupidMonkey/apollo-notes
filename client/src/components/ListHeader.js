@@ -12,9 +12,9 @@ const HeaderStyles = styled.Text`
 `;
 
 export default ({totalResults}) => {
-    return (
-        <View style={Note.header}>
-            <HeaderStyles>Total amount: {totalResults}</HeaderStyles>
-        </View>
-    );
+ return (
+  <View style={Note.header}>
+   <HeaderStyles>Total amount: {totalResults}</HeaderStyles>
+  </View>
+ );
 };

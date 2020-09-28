@@ -7,22 +7,21 @@ import { useApolloClient } from '@apollo/react-hooks';
 import {CommonStyles, CustomButton} from '@/styles/index'
 import { LOGIN_USER, NOTIFICATIONS } from '@/utils/queries'
 import { useQuery } from '@apollo/react-hooks';
-
+import { useNavigation } from '@react-navigation/native';
 
 export default () => {
     const [email, onChangeEmail] = React.useState('test2@com.com');
     const [password, onChangePassword] = React.useState('test');
     const client = useApolloClient();
     const { data } = useQuery(NOTIFICATIONS);
+    const navigation = useNavigation();
 
     const [signIn] = useMutation(LOGIN_USER, {
         onCompleted: async (data) => {
-            console.log('data', data)
             await AsyncStorage.setItem(
                 'AUTH_TOKEN',
                 data.login
             );
-
             client.writeData({ data: { isLoggedIn: true, notifications: []} });
         },
         onError: async (error) => {
@@ -53,8 +52,8 @@ export default () => {
            </View>
            <View>
                <Button 
-                    title={'Sign In'}
-                    onPress={(e) => { 
+                    text={'Sign In'}
+                    action={(e) => { 
                         e.preventDefault();
                         signIn({
                         variables: { 

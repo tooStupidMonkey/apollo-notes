@@ -13,55 +13,55 @@ const UserName = styled.Text`
 
 
 const Styles = StyleSheet.create({
-  container: {
-    display: "flex",
-    alignItems: "center",
-    maxWidth: 150,
-    padding: 20,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 2,
-      height: 6,
-    },
-    shadowOpacity: 0.97,
-    shadowRadius: 7.49,
-    elevation: 12,
+ container: {
+  display: "flex",
+  alignItems: "center",
+  maxWidth: 150,
+  padding: 20,
+  shadowColor: "#000",
+  shadowOffset: {
+   width: 2,
+   height: 6,
   },
-  marginLeft: (value) => ({ marginTop: value }),
-  nameContainer: {
-    textAlign: "center",
+  shadowOpacity: 0.97,
+  shadowRadius: 7.49,
+  elevation: 12,
+ },
+ marginLeft: (value) => ({ marginTop: value }),
+ nameContainer: {
+  textAlign: "center",
 
-  }
+ }
 });
 
 export default ({ user }) => {
-  const navigation = useNavigation();
-  console.log("user.avatar", user);
-  return (
-    <SafeAreaView>
-      <TouchableWithoutFeedback onPress={() => navigation.push("Edit User", user)}>
-        <View style={Styles.container}>
-          <View>
-            {
-              user.avatar ?
-                <Image 
-                  source={{ uri: URL_IMAGES + user.avatar }} 
-                  style={{ width: 120, height: 120, borderRadius: 100, marginTop: 20 }}
-                /> :
-                <Icon
-                  name="user"
-                  size={55}
-                />
-            }
-          </View>
-          <View>
-            <UserName>            
-                {user.firstName} {user.lastName}
-            </UserName>
+ const navigation = useNavigation();
+ console.log("user.avatar", user);
+ return (
+  <SafeAreaView>
+   <TouchableWithoutFeedback onPress={() => navigation.push("Edit User", user)}>
+    <View style={Styles.container}>
+     <View>
+      {
+       user.avatar ?
+        <Image 
+         source={{ uri: URL_IMAGES + user.avatar }} 
+         style={{ width: 120, height: 120, borderRadius: 100, marginTop: 20 }}
+        /> :
+        <Icon
+         name="user"
+         size={55}
+        />
+      }
+     </View>
+     <View>
+      <UserName>            
+       {user.firstName} {user.lastName}
+      </UserName>
             
-          </View>
-        </View>
-      </TouchableWithoutFeedback>
-    </SafeAreaView>
-  );
+     </View>
+    </View>
+   </TouchableWithoutFeedback>
+  </SafeAreaView>
+ );
 };

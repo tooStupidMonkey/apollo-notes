@@ -13,22 +13,22 @@ const TextStyles = styled.Text`
 `;
 
 const Button  = ({styles, action, text, icon}) =>{
-  return (
-    <View>
-      <TouchableOpacityStyles onPress={action}>
-        <TextStyles style={styles}>
-          {icon}{text}
-        </TextStyles>
-      </TouchableOpacityStyles>
-    </View>
-  );
+ return (
+  <View>
+   <TouchableOpacityStyles onPress={action}>
+    <TextStyles style={styles}>
+     {icon}{text}
+    </TextStyles>
+   </TouchableOpacityStyles>
+  </View>
+ );
 };
 
 Button.defaultProps = {
-  text: "Submit",
-  action: () => alert("Submit"),
-  styles: {},
-  icon: ""
+ text: "Submit",
+ action: () => alert("Submit"),
+ styles: {},
+ icon: ""
 };
 
 export default Button;

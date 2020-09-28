@@ -14,47 +14,60 @@ import SignUp from "@/pages/SignUp";
 import ErrorNotification from "@/components/ErrorNotification";
 import {View} from "react-native";
 import {CommonStyles} from "@/styles/index";
+import Icon from "react-native-vector-icons/FontAwesome";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
+const NavigationStyles = {
+  labelStyle: {
+    fontSize: '18px',
+    height: '100%',
+    paddingTop: 14
+  },
+}
+
 export function UsersStack() {
-    return (
-        <Stack.Navigator headerMode="none" headerStyles={CommonStyles.headerStyles}>
-            <Stack.Screen name="Users" component={Users} />
-            <Stack.Screen name="Edit User" component={EditUser} />
-            <Stack.Screen name="Edit Note" component={EditNote} />
-        </Stack.Navigator>
-    ); 
+ return (
+  <Stack.Navigator headerMode="none" headerStyles={CommonStyles.headerStyles}>
+   <Stack.Screen name="Users" component={Users} />
+   <Stack.Screen name="Edit User" component={EditUser} />
+   <Stack.Screen name="Edit Note" component={EditNote} />
+  </Stack.Navigator>
+ ); 
 }
 
 export function AuthorizedStack() {
-    return (      
-        <NavigationContainer>
-            <Tab.Navigator>
-                <Tab.Screen name="Users list" component={UsersStack} />
-                <Tab.Screen name="Add Note" component={AddNote} />
-            </Tab.Navigator>
-        </NavigationContainer>
-    );
+ return (      
+  <NavigationContainer>
+   <Tab.Navigator
+    tabBarOptions={NavigationStyles}
+   >
+    <Tab.Screen name="Users list" component={UsersStack} />
+    <Tab.Screen name="Add Note" component={AddNote} />
+   </Tab.Navigator>
+  </NavigationContainer>
+ );
 }
 
 export function AuthorizationTabs() {
-    return (
-      <NavigationContainer>
-        <Tab.Navigator>
-          <Tab.Screen name="Sign in" component={SignIn} />
-          <Tab.Screen name="SignUp" component={SignUp} />
-        </Tab.Navigator>
-      </NavigationContainer>
-    );
+ return (
+  <NavigationContainer>
+   <Tab.Navigator
+    tabBarOptions={NavigationStyles}
+   >
+    <Tab.Screen name="Sign in" component={SignIn} />
+    <Tab.Screen name="SignUp" component={SignUp} />
+   </Tab.Navigator>
+  </NavigationContainer>
+ );
 }
 
 export function AplicationStack() {
-    const { data } = useQuery(IS_LOGGED_IN);
+ const { data } = useQuery(IS_LOGGED_IN);
 
-    if (data && data.isLoggedIn) {
-        return <AuthorizedStack />;
-    } 
-    return <AuthorizationTabs />;
+ if (data && data.isLoggedIn) {
+  return <AuthorizedStack />;
+ } 
+ return <AuthorizationTabs />;
 }
